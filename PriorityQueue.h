@@ -2,6 +2,7 @@
 
 #include <new>
 #include <cstddef>
+#include <fstream>
 class FullQueue
 {};  
 
@@ -10,7 +11,7 @@ class EmptyQueue
 template <class ItemType>
 struct NodeType {
   ItemType info;
-  NodeType<ItemType> next;
+  NodeType<ItemType>* next;
   int priority;
 }
 template <class ItemType>
@@ -36,7 +37,7 @@ public:
     bool isFull() const;
     // Function: Determines whether the queue is full.
     // Post: Function value = (queue is full)
-    void enqueue(ItemType newItem);
+  void enqueue(ItemType newItem, int prio);
     // Function: Adds newItem to the rear of the queue.
     // Post: If (queue is full) FullQueue exception is thrown
     //       else newItem is at rear of queue.
@@ -49,7 +50,7 @@ public:
   ItemType peek();
   int peekPriority();
   int length();
-  void printQueue();
+  void printQueue(ofstream&);
 private:
   int listLength;
   NodeType<ItemType>* front;
