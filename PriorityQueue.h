@@ -8,20 +8,24 @@ class FullQueue
 class EmptyQueue
 {};  
 template <class ItemType>
-struct NodeType;
+struct NodeType {
+  ItemType info;
+  NodeType<ItemType> next;
+  int priority;
+}
 template <class ItemType>
-class QueType
+class PriorityQueue
 {
 public: 
-    QueType();
+  PriorityQueue();
     // Class constructor.
     // Because there is a default constructor, the precondition 
     // that the queue has been initialized is omitted.
-    QueType(int max);
+  PriorityQueue(int max);
     // Parameterized class constructor.
-    ~QueType();
+  ~PriorityQueue();
     // Class destructor.
-    QueType(const QueType& anotherQue);
+  PriorityQueue(const PriorityQueue& anotherQue);
     // Copy constructor
     void makeEmpty();
     // Function: Initializes the queue to an empty state.
@@ -36,14 +40,18 @@ public:
     // Function: Adds newItem to the rear of the queue.
     // Post: If (queue is full) FullQueue exception is thrown
     //       else newItem is at rear of queue.
-    void dequeue(ItemType& item);
+    ItemType dequeue(ItemType& item);
     // Function: Removes front item from the queue and returns it in item.
     // Post: If (queue is empty) EmptyQueue exception is thrown
     //       and item is undefined
     //       else front element has been removed from queue and
     //       item is a copy of removed element.
+  ItemType peek();
+  int peekPriority();
+  int length();
+  void printQueue();
 private:
-
+  int listLength;
   NodeType<ItemType>* front;
   NodeType<ItemType>* rear;
 };

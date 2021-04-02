@@ -4,7 +4,7 @@ using namespace std;
 #include <fstream>
 #include <string>
 
-#include "QueType.cpp"
+#include "PriorityQueue.cpp"
 
 
 void help()
@@ -26,7 +26,7 @@ int main()
 		return 1;
 	}
 	int item;
-	QueType<int> queue(5);
+	PriorityQueue<int> queue(5);
 	int numCommands=0;
   
 	help();
