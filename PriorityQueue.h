@@ -3,6 +3,7 @@
 #include <new>
 #include <cstddef>
 #include <fstream>
+#include <iostream>
 class FullQueue
 {};  
 
@@ -13,7 +14,7 @@ struct NodeType {
   ItemType info;
   NodeType<ItemType>* next;
   int priority;
-}
+};
 template <class ItemType>
 class PriorityQueue
 {
@@ -50,7 +51,7 @@ public:
   ItemType peek();
   int peekPriority();
   int length();
-  void printQueue(ofstream&);
+  void printQueue(ofstream& outFile);
 private:
   int listLength;
   NodeType<ItemType>* front;
