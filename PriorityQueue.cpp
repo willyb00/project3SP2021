@@ -43,7 +43,12 @@ PriorityQueue<ItemType>::~PriorityQueue() {
     // Class destructor.
 
 template <class ItemType>
-PriorityQueue<ItemType>::PriorityQueue(const PriorityQueue& anotherQue);
+PriorityQueue<ItemType>::PriorityQueue(const PriorityQueue<ItemType>& anotherQue) {
+  listLength = anotherQue.listLength;
+  front = anotherQue.front;
+  rear = anotherQue.rear;
+  maxLength = anotherQue.maxLength;
+}
     // Copy constructor
 
 template <class ItemType>
@@ -92,11 +97,12 @@ void PriorityQueue<ItemType>::enqueue(ItemType newItem, int prio) {
 
   NodeType<ItemType>* insert = new NodeType<ItemType>;
   insert->info = newItem;
-  insert->proirity = prio;
+  insert->priority = prio;
   if (isEmpty()) {
     insert->next = NULL;
     front = insert;
     rear = insert;
+    listLength++;
   } else {
     bool found = false;
     NodeType<ItemType>* location = front;
@@ -105,27 +111,36 @@ void PriorityQueue<ItemType>::enqueue(ItemType newItem, int prio) {
     if (location->priority > prio) {
       insert->next = location;
       front = insert;
+      listLength++;
       found = true;
+    } else {
+      //need to put the new item in the middle
+      location = location->next;
     }
-    //need to put the new item in the middle
-    location = location->next;
     while (found == false) {
 
       //need to append the new item
       if(location == NULL) {
 	location = insert;
 	insert->next = NULL;
+	prev->next = insert;
 	rear = insert;
+	listLength++;
 	found = true;
       } else if (location->priority > prio) {
 	prev->next = insert;
 	insert->next = location;
+	listLength++;
 	found = true;
       }
+      /*
       if (!found) {
 	location = location->next;
 	prev = prev->next;
       }
+      */
+      location = location->next;
+      prev = prev->next;
     }
     
   }
@@ -140,16 +155,19 @@ ItemType PriorityQueue<ItemType>::dequeue(ItemType& item) {
   //If the queue is empty, throw an exception
   if (isEmpty()) {
     throw EmptyQueue();
-  }
+  } else {
   //Here, the first node and its value are given to temp holders
   NodeType<ItemType>* temp = front;
-  ItemType tempret = temp->info;
+  ItemType tempret = front->info;
+  item = tempret;
   //Here, the front pointer moves forward and decriments listLength
   front = front->next;
   listLength--;
   //Here, the dequeued node is deleted and its value returned
   delete temp;
   return tempret;
+  }
+  return item;
 }
 
 template <class ItemType>

@@ -1,7 +1,7 @@
 OBJS	= PriorityQueue.o PriorityQueueDr.o
 SOURCE	= PriorityQueue.cpp PriorityQueueDr.cpp
 HEADER	= PriorityQueue.h
-OUT	= PriorityQueueDr
+OUT	= PrioityQueueDr
 CC	 = g++
 FLAGS	 = -g -c -Wall
 LFLAGS	 = 

@@ -4,11 +4,18 @@
 #include <cstddef>
 #include <fstream>
 #include <iostream>
+using namespace std;
 class FullQueue
 {};  
 
 class EmptyQueue
-{};  
+{};
+
+class QueueOverflow
+{};
+
+class QueueUnderflow
+{};
 template <class ItemType>
 struct NodeType {
   ItemType info;
