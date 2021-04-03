@@ -5,6 +5,11 @@ using namespace std;
 
 template <class ItemType>
 PriorityQueue<ItemType>::PriorityQueue() {
+
+  listLength = 0;
+  front = NULL;
+  rear = NULL;
+  maxLength = -1;
   
 }
     // Class constructor.
@@ -12,7 +17,14 @@ PriorityQueue<ItemType>::PriorityQueue() {
     // that the queue has been initialized is omitted.
 
 template <class ItemType>
-PriorityQueue<ItemType>::PriorityQueue(int max);
+PriorityQueue<ItemType>::PriorityQueue(int max) {
+
+  listLength = 0;
+  front = NULL;
+  rear = NULL;
+  maxLength = max;
+  
+}
     // Parameterized class constructor.
 
 template <class ItemType>
@@ -53,7 +65,7 @@ void PriorityQueue<ItemType>::makeEmpty() {
 template <class ItemType>
 bool PriorityQueue<ItemType>::isEmpty() const {
   //If the length is 0, the list is empty
-  if (length == 0) {
+  if (listLength == 0) {
     return true;
   }
   //Otherwise, it is not empty
@@ -61,14 +73,61 @@ bool PriorityQueue<ItemType>::isEmpty() const {
 }
 
 template <class ItemType>
-bool PriorityQueue<ItemType>::isFull() const;
+bool PriorityQueue<ItemType>::isFull() const {
+
+  if (maxLength != listLength || maxLength == -1) {
+    return false;
+  }
+  return true;
+  
+}
     // Function: Determines whether the queue is full.
     // Post: Function value = (queue is full)
 
 template <class ItemType>
-void PriorityQueue<ItemType>::enqueue(ItemType newItem, int prio = 1) {
+void PriorityQueue<ItemType>::enqueue(ItemType newItem, int prio) {
   if (isFull()) {
     throw FullQueue();
+  }
+
+  NodeType<ItemType>* insert = new NodeType<ItemType>;
+  insert->info = newItem;
+  insert->proirity = prio;
+  if (isEmpty()) {
+    insert->next = NULL;
+    front = insert;
+    rear = insert;
+  } else {
+    bool found = false;
+    NodeType<ItemType>* location = front;
+    NodeType<ItemType>* prev = front;
+    //need to put new item in the front
+    if (location->priority > prio) {
+      insert->next = location;
+      front = insert;
+      found = true;
+    }
+    //need to put the new item in the middle
+    location = location->next;
+    while (found == false) {
+
+      //need to append the new item
+      if(location == NULL) {
+	location = insert;
+	insert->next = NULL;
+	rear = insert;
+	found = true;
+      } else if (location->priority > prio) {
+	prev->next = insert;
+	insert->next = location;
+	found = true;
+      }
+      if (!found) {
+	location = location->next;
+	prev = prev->next;
+      }
+    }
+    
   }
   
 }

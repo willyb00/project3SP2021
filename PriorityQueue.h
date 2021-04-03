@@ -55,5 +55,6 @@ private:
   int listLength;
   NodeType<ItemType>* front;
   NodeType<ItemType>* rear;
+  int maxLength;
 };
 
